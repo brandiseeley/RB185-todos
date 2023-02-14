@@ -2,10 +2,11 @@ require "sinatra"
 require "sinatra/reloader"
 require "sinatra/content_for"
 require "tilt/erubis"
+require 'securerandom'
 
 configure do
   enable :sessions
-  set :session_secret, 'secret'
+  set :session_secret, SecureRandom.hex(32)
   set :erb, :escape_html => true
 end
 
