@@ -2,7 +2,7 @@ require "pg"
 
 class DatabasePersistence
   def initialize(logger)
-    @database = PG.connect(dbname: "todos")
+    @database = PG.connect("postgres://postgres:7k6wIiOdZjgYKM7@rb185-todos-db.internal:5432")
     @logger = logger
   end
 
