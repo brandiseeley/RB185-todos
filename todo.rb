@@ -1,8 +1,11 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'bundler/setup'
 require "sinatra"
 require "sinatra/content_for"
 require "tilt/erubis"
 require "securerandom"
-
 require_relative "database_persistence"
 
 configure do
@@ -18,19 +21,11 @@ end
 
 helpers do
   def list_complete?(list)
-    todos_count(list) > 0 && todos_remaining_count(list).zero?
+    list[:todos_count] > 0 && list[:todos_remaining_count].zero?
   end
 
   def list_class(list)
     "complete" if list_complete?(list)
-  end
-
-  def todos_count(list)
-    list[:todos].size
-  end
-
-  def todos_remaining_count(list)
-    list[:todos].count { |todo| !todo[:completed] }
   end
 
   def sort_lists(lists, &block)
@@ -55,6 +50,10 @@ def load_list(id)
   session[:error] = "The specified list was not found."
   redirect "/lists"
   halt
+end
+
+def load_todos(id)
+  @storage.all_todos_from_list(id)
 end
 
 # Return an error message if the name is invalid. Return nil if name is valid.
@@ -109,6 +108,7 @@ end
 get "/lists/:id" do
   @list_id = params[:id].to_i
   @list = load_list(@list_id)
+  @todos = load_todos(@list_id)
   erb :list, layout: :layout
 end
 

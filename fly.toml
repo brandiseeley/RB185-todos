@@ -1,6 +1,6 @@
-# fly.toml file generated for rb185-todos on 2023-02-15T16:48:45-05:00
+# fly.toml file generated for rb185-todo on 2023-02-15T18:05:42-05:00
 
-app = "rb185-todos"
+app = "rb185-todo"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
